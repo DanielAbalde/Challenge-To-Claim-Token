@@ -18,12 +18,12 @@ async function main()
     //const infoURL = "";
     //const secretKey = ethers.utils.formatBytes32String("2");
     const tokenId = 3;
-    const infoURL = "";
-    const secretKey = ethers.utils.formatBytes32String("2");
+    const infoURL = "http://shorturl.at/pzHJK";
+    const secretKey = ethers.utils.formatBytes32String(process.env.SecretForERC21_3);
  
-    const key = await CTC.makeChallengeERC721(challengeToClaimAddress, chainId, signer, tokenAddress, tokenId, infoURL, secretKey);
+    const signature = await CTC.makeChallengeERC721(challengeToClaimAddress, chainId, signer, tokenAddress, tokenId, infoURL, secretKey);
         
-    console.log("Challenge created with key:", key, "and secret:", secretKey); 
+    console.log("Challenge created with signature:", signature, "and secret:", secretKey); 
 }
  
 main().catch((error) => {

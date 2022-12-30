@@ -60,7 +60,7 @@ Because one part of the signature is derived from information determined by the 
 
 ## 🛠️ Testing
 
-You can help by testing the project using the scripts or from polygonscan. The NFT test contracts allow you to mint your own tokens, which generate random images. Use these to challenge and claim and try to break the contract!
+You can help by testing the project using the scripts or from polygonscan (you can use [this tool](https://www.devoven.com/string-to-bytes32) to convert from text to bytes32 for the secretKey). The NFT test contracts allow you to mint your own tokens, which generate random images. Use these to challenge and claim and try to break the contract!
 
 ## ✉️ Contact 
  * Twitter: [@DGANFT](https://twitter.com/DGANFT)

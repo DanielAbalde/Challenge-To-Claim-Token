@@ -1,2 +1,2 @@
-Signature: 0x5bb791974d63bd1854e2b34bbaa2b04cf142a5015902686269d4ce51164e38a83beba3fde74cdbbc63dbd3053d124ecff6ddfd415f7268c5abce2cc51a992ec11c
+Signature: 0x0c441ae73f15a868178e91e3295d38150d34871e59598d1f4d391d23d95c02b4302d66dde6ac61eadecee5be5d0828cf7ce0be6161b1f644c02b759b808b0a0f1c
 Qestion: A mother is 40 years old and her son is 10. How many years must pass before the mother's age becomes three times the age of her son?

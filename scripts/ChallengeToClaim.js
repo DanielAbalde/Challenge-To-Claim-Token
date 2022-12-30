@@ -13,9 +13,8 @@ exports.makeChallengeERC721 = async function(challengeContractAddress, chainId, 
         await contract.makeSafeChallengeERC721(tokenAddress, tokenId, infoURL, signature); 
     } else{
         await contract.makeChallengeERC721(tokenAddress, tokenId, infoURL, signature); 
-    }
-  
-    return exports.getChallengeKeyFromSignature(signature);
+    } 
+    return signature;
 }
 
 exports.claim = async function(challengeContractAddress, signer, secretKey, signature){
