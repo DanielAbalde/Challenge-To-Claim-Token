@@ -1,18 +1,29 @@
-const challengeToClaimABI = JSON.parse(fs.readFileSync("./artifacts/contracts/ChallengeToClaim.sol/ChallengeToClaim.json")).abi; 
+const { ethers } = require("hardhat"); 
+const fs = require('fs');
 
-exports.makeChallengeERC721 = async function(challengeContract, chainId, signer, tokenAddress, tokenId, infoURL, secretKey, name="ChallengeToClaim", version="1")
-{  
-    const signature = await signChallenge(signer, chainId, tokenAddress, tokenId, amount, secretKey, name, version); 
-    
-    const contract = new ethers.Contract(challengeContract, challengeToClaimABI, signer); 
-    
-    await contract.makeChallengeERC721(tokenAddress, tokenId, infoURL, signature);
-        
-    return getChallengeKeyFromSignature(signature);
+
+exports.challengeToClaimABI = JSON.parse(fs.readFileSync("./artifacts/contracts/ChallengeToClaim.sol/ChallengeToClaim.json")).abi;  
+
+exports.makeChallengeERC721 = async function(challengeContractAddress, chainId, signer, tokenAddress, tokenId, infoURL, secretKey, safe=true, name="ChallengeToClaim", version="1")
+{   
+    const contract = new ethers.Contract(challengeContractAddress, exports.challengeToClaimABI, signer); 
+    const nonce = (await contract.getNonce()).toNumber(); 
+    const signature = await exports.signChallenge(contract, chainId, nonce, signer, tokenAddress, tokenId, 1, secretKey, name, version); 
+    if(safe){
+        await contract.makeSafeChallengeERC721(tokenAddress, tokenId, infoURL, signature); 
+    } else{
+        await contract.makeChallengeERC721(tokenAddress, tokenId, infoURL, signature); 
+    }
+  
+    return exports.getChallengeKeyFromSignature(signature);
 }
 
-exports.signChallenge = async function (challengeContract, chainId, signer, tokenAddress, tokenId, amount, secretKey, name="ChallengeToClaim", version="1"){  
-    const nonce = (await challengeContract.connect(signer).getNonce()).toNumber(); 
+exports.claim = async function(challengeContractAddress, signer, secretKey, signature){
+    const contract = new ethers.Contract(challengeContractAddress, exports.challengeToClaimABI, signer); 
+    await contract.claim(secretKey, signature);
+}
+
+exports.signChallenge = async function (challengeContract, chainId, nonce, signer, tokenAddress, tokenId, amount, secretKey, name="ChallengeToClaim", version="1"){  
     return await signer._signTypedData(
         {
             name: name,
@@ -29,6 +40,12 @@ exports.signChallenge = async function (challengeContract, chainId, signer, toke
         { name: 'secretKey', type: 'bytes32' } 
       ] }, 
       { owner: signer.address, contractAddress: tokenAddress, tokenId: tokenId, amount: amount, nonce: nonce, secretKey: secretKey });
+  }
+  
+  exports.getChallenge = async function (challengeContractAddress, signer, signature){
+    const key = ethers.utils.solidityKeccak256(['bytes'], [signature]);
+    const contract = new ethers.Contract(challengeContractAddress, exports.challengeToClaimABI, signer); 
+    return await contract.getChallenge(key);
   }
   
   exports.getChallengeKeyFromSignature = function (signature){
