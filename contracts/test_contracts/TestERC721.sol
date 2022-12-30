@@ -14,4 +14,7 @@ contract TestERC721 is ERC721
     _safeMint(to, tokenId, "");
   }
 
+  function _baseURI() internal pure override returns (string memory) {
+      return "ipfs://bafybeig3okxpcrod5nr4vs2fpvbmajr2fnmcvcvgc7yelckbsy3y7jlhfu/";
+  }
 }
