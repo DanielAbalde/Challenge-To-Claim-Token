@@ -3,7 +3,7 @@
 
 <p align="center" style="font-style: italic">⚠️<small>This project still needs to be audited and used in testnets, use it under your own risk</small>⚠️</p>
 
-This [contract](./contracts/ChallengeToClaim.sol) allows you to put your ERC721, ERC1155 and ERC20 tokens under challenge, so that whoever finds the answer will be able to claim the token to transfer it to himself. You present a challenge, problem, puzzle, quest or gymkhana, and this contract takes care of the transfer to whomever provides the correct solution.
+This [contract](./contracts/ChallengeToClaim.sol) allows you to put your ERC721, ERC1155 and ERC20 tokens under challenge, so that whoever finds the answer will be able to claim the token to transfer it to himself. You present a challenge, problem, puzzle, quiz or gymkhana, and this contract takes care of the transfer to whomever provides the correct solution.
 
 
 ## 🚀 Motivation
@@ -15,12 +15,12 @@ The motivation is to let anyone to offer a more fun alternative to random airdro
 | Name | Chain | Contract |
 |:----:|:-----:|:--------:|
 | [ChallengeToClaim](./contracts/ChallengeToClaim.sol) | Mumbai | [0xa758C748A6e9907A79456B0A5d9Ed67cd95073CC](https://mumbai.polygonscan.com/address/0xa758C748A6e9907A79456B0A5d9Ed67cd95073CC#code) |
-| [TestERC721] | Mumbai | [0x34a543c3f84Ea167DF84d5ed0a80A0Ce9916FF42](https://mumbai.polygonscan.com/address/0x34a543c3f84Ea167DF84d5ed0a80A0Ce9916FF42#code) |
+| [TestERC721](./contracts/test_contracts/TestERC721.sol) | Mumbai | [0x34a543c3f84Ea167DF84d5ed0a80A0Ce9916FF42](https://mumbai.polygonscan.com/address/0x34a543c3f84Ea167DF84d5ed0a80A0Ce9916FF42#code) |
 
 
 ## 🗺️ How it works
 
-Each challenge is made up of a prize token, a secret hash, and a unique encrypted signature derived from both using the [EIP712](https://eips.ethereum.org/EIPS/eip-712) standard. The challenger registers the token along with the signature, and the winner must present that signature and its corresponding secret hash, to verify that the prize can be claimed.
+Each challenge is made up of a prize token, a secret hash, and a unique encrypted signature derived from both, using the [EIP712](https://eips.ethereum.org/EIPS/eip-712) standard. The challenger registers the token along with the signature, and the winner must present that signature and its corresponding secret hash, to verify that the prize can be claimed.
 
 ```js
   // This is what the challenger does under the hood:
@@ -60,11 +60,15 @@ Because one part of the signature is derived from information determined by the 
 
 ## 🛠️ Testing
 
-You can help by testing the project using the scripts or from polygonscan (you can use [this tool](https://www.devoven.com/string-to-bytes32) to convert from text to bytes32 for the secretKey). The NFT test contracts allow you to mint your own tokens, which generate random images. Use these to challenge and claim and try to break the contract!
+You can also help by testing the project using the scripts or from polygonscan. The NFT test contracts allow you to mint your own tokens for testing. Try to break the contract!
+ 
+The [challenge #1](https://github.com/DanielAbalde/Challenge-To-Claim-Token/blob/master/test/test_tokens/ERC721/challenges/Challenge_1.txt) and [challenge #3](https://github.com/DanielAbalde/Challenge-To-Claim-Token/blob/master/test/test_tokens/ERC721/challenges/Challenge_3.txt) are still active. If you know some answer, 1) go to any online tool like [this one](https://www.devoven.com/string-to-bytes32) to hash the solution to bytes32, and 2) go the claim function in [polygonscan](https://mumbai.polygonscan.com/address/0xa758C748A6e9907A79456B0A5d9Ed67cd95073CC#writeContract#F1), connect your wallet, set the secretKey (the hashed solution) and signature (which you can find in the challenge links), and if you have the right solution the [token #1](https://testnets.opensea.io/assets/mumbai/0x34a543c3f84ea167df84d5ed0a80a0ce9916ff42/1) or [token #3](https://testnets.opensea.io/assets/mumbai/0x34a543c3f84ea167df84d5ed0a80a0ce9916ff42/3) will be yours!
+
+## 🧱 TODO
+* Tests for batch methods.
+* Add expiration time.
+* Add multiple token reward.
 
 ## ✉️ Contact 
  * Twitter: [@DGANFT](https://twitter.com/DGANFT)
  * Discord: [DaniGA#9856](https://discord.com/invite/H4WMdnz5nw)
-
-## ♻️ License 
-  * [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.html)
