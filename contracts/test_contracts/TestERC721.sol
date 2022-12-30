@@ -15,6 +15,6 @@ contract TestERC721 is ERC721
   }
 
   function _baseURI() internal pure override returns (string memory) {
-      return "ipfs://bafybeig3okxpcrod5nr4vs2fpvbmajr2fnmcvcvgc7yelckbsy3y7jlhfu/";
+      return "ipfs://bafybeigpqbtx6fr46bzzmb2cgdjkzmwqrkemrl5a7pyfuwha5ozekqxkbq/";
   }
 }

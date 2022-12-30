@@ -8,7 +8,7 @@ async function main()
 {  
     const [signer] = await ethers.getSigners();
 
-    const tokenAddress = "0x8592848CFdA5E0D787C36294C17d10b88b2F1bd9"; // mumbai
+    const tokenAddress = "0x34a543c3f84Ea167DF84d5ed0a80A0Ce9916FF42"; // mumbai
     const to = signer.address;
     const amount = 5;
 
@@ -23,9 +23,7 @@ async function main()
     }
  
 }
-
-// We recommend this pattern to be able to use async/await everywhere
-// and properly handle errors.
+ 
 main().catch((error) => {
   console.error(error);
   process.exitCode = 1;

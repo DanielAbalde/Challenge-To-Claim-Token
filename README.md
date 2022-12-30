@@ -15,7 +15,7 @@ The motivation is to let anyone to offer a more fun alternative to random airdro
 | Name | Chain | Contract |
 |:----:|:-----:|:--------:|
 | [ChallengeToClaim](./contracts/ChallengeToClaim.sol) | Mumbai | [0xa758C748A6e9907A79456B0A5d9Ed67cd95073CC](https://mumbai.polygonscan.com/address/0xa758C748A6e9907A79456B0A5d9Ed67cd95073CC#code) |
-| [TestERC721] | Mumbai | [0x8592848CFdA5E0D787C36294C17d10b88b2F1bd9](https://mumbai.polygonscan.com/address/0x8592848CFdA5E0D787C36294C17d10b88b2F1bd9#code) |
+| [TestERC721] | Mumbai | [0x34a543c3f84Ea167DF84d5ed0a80A0Ce9916FF42](https://mumbai.polygonscan.com/address/0x34a543c3f84Ea167DF84d5ed0a80A0Ce9916FF42#code) |
 
 
 ## 🗺️ How it works
