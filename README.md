@@ -12,9 +12,9 @@ The motivation is to let anyone to offer a more fun alternative to random airdro
 
 ## 🔑 Deployments
 
-| Chain | Contract |
-|:-----:|:--------:|
-| Mumbai | [0xa758C748A6e9907A79456B0A5d9Ed67cd95073CC](https://mumbai.polygonscan.com/address/0xa758C748A6e9907A79456B0A5d9Ed67cd95073CC#code) |
+| Name | Chain | Contract |
+|:----:|:-----:|:--------:|
+| [ChallengeToClaim](./contracts/ChallengeToClaim.sol) | Mumbai | [0xa758C748A6e9907A79456B0A5d9Ed67cd95073CC](https://mumbai.polygonscan.com/address/0xa758C748A6e9907A79456B0A5d9Ed67cd95073CC#code) |
 
 
 ## 🗺️ How it works
