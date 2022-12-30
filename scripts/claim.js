@@ -12,6 +12,8 @@ async function main()
  
     await CTC.claim(challengeToClaimAddress, account1, secretKey, signature);
     
+    await new Promise(res => setTimeout(() => res(null), 5000));
+    
     const challenge = await CTC.getChallenge(challengeToClaimAddress, account1, signature);
  
     console.log(challenge);

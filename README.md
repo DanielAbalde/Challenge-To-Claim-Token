@@ -58,6 +58,10 @@ Because one part of the signature is derived from information determined by the 
 * Invite me a coffee at daniga.eth or 0x4443049b49Caf8Eb4E9235aA1Efe38FcFA0055a1
 * Share it on social media!
 
+## 🛠️ Testing
+
+You can help by testing the project using the scripts or from polygonscan. The NFT test contracts allow you to mint your own tokens, which generate random images. Use these to challenge and claim and try to break the contract!
+
 ## ✉️ Contact 
  * Twitter: [@DGANFT](https://twitter.com/DGANFT)
  * Discord: [DaniGA#9856](https://discord.com/invite/H4WMdnz5nw)

@@ -14,7 +14,10 @@ async function main()
     //const tokenId = 1;
     //const infoURL = "http://shorturl.at/pJNUY";
     //const secretKey = ethers.utils.formatBytes32String(process.env.SecretForERC21_1);
-    const tokenId = 2;
+    //const tokenId = 2;
+    //const infoURL = "";
+    //const secretKey = ethers.utils.formatBytes32String("2");
+    const tokenId = 3;
     const infoURL = "";
     const secretKey = ethers.utils.formatBytes32String("2");
  
