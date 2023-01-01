@@ -61,7 +61,7 @@ contract ChallengeToClaim is EIP712("ChallengeToClaim", "1"), Context
         @param infoURL is an optional URL that directs to a description or instructions of the challenge.
         @param signature is the message that the token owner must sign.
     */
-    function makeChallengeERC721(address contractAddress, uint256 tokenId, string memory infoURL, bytes memory signature) external
+    function makeChallengeERC721(address contractAddress, uint256 tokenId, string calldata infoURL, bytes calldata signature) external
     { 
         _makeChallenge(_getChallengeKey(signature), Challenge(_msgSender(), contractAddress, tokenId, 1, _nonces[_msgSender()].current(), infoURL, TokenType.ERC721, false));
     }
@@ -73,13 +73,13 @@ contract ChallengeToClaim is EIP712("ChallengeToClaim", "1"), Context
         @param infoURL is an optional URL that directs to a description or instructions of the challenge.
         @param signature is the message that the token owner must sign.
     */
-    function makeSafeChallengeERC721(address contractAddress, uint256 tokenId, string memory infoURL, bytes memory signature) external
+    function makeSafeChallengeERC721(address contractAddress, uint256 tokenId, string calldata infoURL, bytes calldata signature) external
     { 
         require(IERC721(contractAddress).ownerOf(tokenId) == _msgSender(), "ChallengeToClaim: not the owner");
         require(IERC721(contractAddress).isApprovedForAll(_msgSender(), address(this)) || IERC721(contractAddress).getApproved(tokenId) == address(this), "ChallengeToClaim: First you have to approve this contract in the contractAddress");      
         _makeChallenge(_getChallengeKey(signature), Challenge(_msgSender(), contractAddress, tokenId, 1, _nonces[_msgSender()].current(), infoURL, TokenType.ERC721, false));
     }  
-    function makeChallengeBatchERC721(address contractAddress, uint256[] memory tokenIds, string[] memory infoURLs, bytes[] memory signatures) external
+    function makeChallengeBatchERC721(address contractAddress, uint256[] calldata tokenIds, string[] calldata infoURLs, bytes[] calldata signatures) external
     { 
         require(tokenIds.length == infoURLs.length, "ChallengeToClaim: length mismatch");
         require(tokenIds.length == signatures.length, "ChallengeToClaim: length mismatch");
@@ -89,7 +89,7 @@ contract ChallengeToClaim is EIP712("ChallengeToClaim", "1"), Context
             _makeChallenge(_getChallengeKey(signatures[i]), Challenge(_msgSender(), contractAddress, tokenIds[i], 1, _nonces[_msgSender()].current(), infoURLs[i], TokenType.ERC721, false));
         } 
     }    
-    function makeSafeChallengeBatchERC721(address contractAddress, uint256[] memory tokenIds, string[] memory infoURLs, bytes[] memory signatures) external
+    function makeSafeChallengeBatchERC721(address contractAddress, uint256[] calldata tokenIds, string[] calldata infoURLs, bytes[] calldata signatures) external
     { 
         require(tokenIds.length == infoURLs.length, "ChallengeToClaim: length mismatch");
         require(tokenIds.length == signatures.length, "ChallengeToClaim: length mismatch");
@@ -115,7 +115,7 @@ contract ChallengeToClaim is EIP712("ChallengeToClaim", "1"), Context
         @param infoURL is an optional URL that directs to a description or instructions of the challenge.
         @param signature is the message that the token owner must sign.
     */
-    function makeChallengeERC1155(address contractAddress, uint256 tokenId, uint256 amount, string memory infoURL, bytes memory signature) external
+    function makeChallengeERC1155(address contractAddress, uint256 tokenId, uint256 amount, string calldata infoURL, bytes calldata signature) external
     { 
         _makeChallenge(_getChallengeKey(signature), Challenge(_msgSender(), contractAddress, tokenId, amount, _nonces[_msgSender()].current(), infoURL, TokenType.ERC1155, false));
     }
@@ -128,13 +128,13 @@ contract ChallengeToClaim is EIP712("ChallengeToClaim", "1"), Context
         @param infoURL is an optional URL that directs to a description or instructions of the challenge.
         @param signature is the message that the token owner must sign.
     */
-    function makeSafeChallengeERC1155(address contractAddress, uint256 tokenId, uint256 amount, string memory infoURL, bytes memory signature) external
+    function makeSafeChallengeERC1155(address contractAddress, uint256 tokenId, uint256 amount, string calldata infoURL, bytes calldata signature) external
     { 
         require(IERC1155(contractAddress).balanceOf(_msgSender(), tokenId) >= amount, "ChallengeToClaim: not the owner");
         require(IERC1155(contractAddress).isApprovedForAll(_msgSender(), address(this)), "ChallengeToClaim: First you have to approve this contract in the contractAddress");       
         _makeChallenge(_getChallengeKey(signature), Challenge(_msgSender(), contractAddress, tokenId, amount, _nonces[_msgSender()].current(), infoURL, TokenType.ERC1155, false));
     }
-    function makeChallengeBatchERC1155(address contractAddress, uint256[] memory tokenIds, uint256[] memory amounts, string[] memory infoURLs, bytes[] memory signatures) external
+    function makeChallengeBatchERC1155(address contractAddress, uint256[] calldata tokenIds, uint256[] calldata amounts, string[] calldata infoURLs, bytes[] calldata signatures) external
     { 
         require(tokenIds.length == amounts.length, "ChallengeToClaim: length mismatch");
         require(tokenIds.length == infoURLs.length, "ChallengeToClaim: length mismatch");
@@ -145,7 +145,7 @@ contract ChallengeToClaim is EIP712("ChallengeToClaim", "1"), Context
             _makeChallenge(_getChallengeKey(signatures[i]), Challenge(_msgSender(), contractAddress, tokenIds[i], 1, _nonces[_msgSender()].current(), infoURLs[i], TokenType.ERC1155, false));
         }      
     } 
-    function makeSafeChallengeBatchERC1155(address contractAddress, uint256[] memory tokenIds, uint256[] memory amounts, string[] memory infoURLs, bytes[] memory signatures) external
+    function makeSafeChallengeBatchERC1155(address contractAddress, uint256[] calldata tokenIds, uint256[] calldata amounts, string[] calldata infoURLs, bytes[] calldata signatures) external
     { 
         require(tokenIds.length == amounts.length, "ChallengeToClaim: length mismatch");
         require(tokenIds.length == infoURLs.length, "ChallengeToClaim: length mismatch");
@@ -168,7 +168,7 @@ contract ChallengeToClaim is EIP712("ChallengeToClaim", "1"), Context
         @param infoURL is an optional URL that directs to a description or instructions of the challenge.
         @param signature is the message that the token owner must sign.
     */
-    function makeChallengeERC20(address contractAddress, uint256 amount, string memory infoURL, bytes memory signature) external
+    function makeChallengeERC20(address contractAddress, uint256 amount, string calldata infoURL, bytes calldata signature) external
     {
         _makeChallenge(_getChallengeKey(signature), Challenge(_msgSender(), contractAddress, 0, amount, _nonces[_msgSender()].current(), infoURL, TokenType.ERC20, false));
     }
@@ -180,7 +180,7 @@ contract ChallengeToClaim is EIP712("ChallengeToClaim", "1"), Context
         @param infoURL is an optional URL that directs to a description or instructions of the challenge.
         @param signature is the message that the token owner must sign.
     */
-    function makeSafeChallengeERC20(address contractAddress, uint256 amount, string memory infoURL, bytes memory signature) external
+    function makeSafeChallengeERC20(address contractAddress, uint256 amount, string calldata infoURL, bytes calldata signature) external
     {
         require(IERC20(contractAddress).balanceOf(_msgSender()) >= amount, "ChallengeToClaim: not the owner");
         require(IERC20(contractAddress).allowance(_msgSender(), address(this)) >= amount, "ChallengeToClaim: First you have to allow this contract in the contractAddress");
@@ -199,7 +199,7 @@ contract ChallengeToClaim is EIP712("ChallengeToClaim", "1"), Context
         @param secretKey is the hash of the solution or secret message that participants must find to solve the challenge.
         @param signature is the signed message that identifies the challenge.
     */
-    function claim(bytes32 secretKey, bytes memory signature) external
+    function claim(bytes32 secretKey, bytes calldata signature) external
     { 
         bytes32 key = _getChallengeKey(signature);
         require(_challenges[key].ContractAddress != address(0), "ChallengeToClaim: No challenge for this signature");
@@ -220,7 +220,7 @@ contract ChallengeToClaim is EIP712("ChallengeToClaim", "1"), Context
         emit ChallengeSolved(key);
     }
   
-    function removeChallenge(bytes memory signature) external
+    function removeChallenge(bytes calldata signature) external
     {
         bytes32 key = _getChallengeKey(signature);
         require(_challenges[key].ContractAddress != address(0), "ChallengeToClaim: No challenge for this signature");
@@ -229,7 +229,7 @@ contract ChallengeToClaim is EIP712("ChallengeToClaim", "1"), Context
         delete _challenges[key];
     }
 
-    function _getChallengeKey(bytes memory signature) internal pure returns(bytes32){
+    function _getChallengeKey(bytes calldata signature) internal pure returns(bytes32){
         return keccak256(abi.encodePacked(signature));
     } 
     function _hashAndDigest(Challenge memory ch, bytes32 secretKey) internal view returns (bytes32) { 

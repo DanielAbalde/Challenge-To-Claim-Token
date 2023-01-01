@@ -28,7 +28,7 @@ Each challenge is made up of a prize token, a secret hash, and a unique encrypte
   const owner = "<input address>";
   // 3) Hash the solution to challenge
   const secretKey = ethers.utils.formatBytes32String("secret message or solution");
-  // 4) Generate the EIP721 signature
+  // 4) Generate the EIP712 signature
   const signature = await signChallenge(owner, token.address, token.tokenId, token.amount, secretKey);
   // 5) Register a new challenge
   await challengeContract.connect(owner).makeChallengeERC721(token.address, token.tokenId, "", signature);
@@ -68,6 +68,7 @@ The [challenge #1](https://github.com/DanielAbalde/Challenge-To-Claim-Token/blob
 * Tests for batch methods.
 * Add expiration time.
 * Add multiple token reward.
+* Develop DApp.
 
 ## ✉️ Contact 
  * Twitter: [@DGANFT](https://twitter.com/DGANFT)
