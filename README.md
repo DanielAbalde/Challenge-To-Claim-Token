@@ -66,7 +66,7 @@ The [challenge #1](https://github.com/DanielAbalde/Challenge-To-Claim-Token/blob
 
 ## 🧱 TODO 
 * Update comments.
-* Update readme.
+* Update readme. 
 * Develop DApp.
 
 ## ✉️ Contact 
