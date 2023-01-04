@@ -8,8 +8,9 @@ import "@openzeppelin/contracts/utils/cryptography/EIP712.sol";
 
 /*
     @title Challenge To Claim
-    @author Daniel Gonzalez Abalde aka DaniGA
-    @notice Allows ERC721, ERC1155 and ERC20 tokens to be set to challenges where participants must find a solution that allows them to claim the token.
+    @author Daniel Abalde aka DaniGA#9856
+    @notice Allows you to put your NFT or fungible tokens under challenge,
+    for whoever finds the answer to receive the reward tokens.
 */
 contract ChallengeToClaim is EIP712("ChallengeToClaim", "2"), Context
 {
@@ -56,30 +57,53 @@ contract ChallengeToClaim is EIP712("ChallengeToClaim", "2"), Context
     */
     function getNonce() external view returns (uint256){ return _nonces[_msgSender()].current(); }
     /*
-        @return the challenge for given 'key'.
+        @return the Challenge for given 'key'.
     */
     function getChallenge(bytes32 key) external view returns(Challenge memory){ return _challenges[key]; }
     /*
-        @return the challengeSet for given 'key'.
+        @return the ChallengeSet for given 'key'.
     */
     function getChallengeSet(bytes32 key) external view returns(ChallengeSet memory){ return _challengeSets[key]; }
     /*
         @return all the keys of each challenge.
     */
     function getChallenges() external view returns(bytes32[] memory){ return _challengeKeys; }
+    /*
+        Get the address of the TokenClient instance
+    */
+    function getTokenClient() external view returns(address){ return address(_client); }
 
+    /*  
+        @notice Register a new Challenge.
+        @dev This method does not require the sender to own the token or to have approved TokenClient, in order to save gas.
+             If you want these requires, use {makeSafeChallenge} instead. 
+        @param token is the Token to make the challenge. 
+        @param endsAt is the block timestamp when the challenge expires.
+        @param infoURL is an optional URL that directs to a description or instructions of the challenge.
+        @param signature is the message that the token owner must sign.
+    */
     function makeChallenge(Token calldata token, uint256 endsAt, string calldata infoURL, bytes calldata signature) external returns(bytes32) {
         return _makeChallenge(token, endsAt, infoURL, signature);
     }
-    function makeChallengeSet(TokenSet calldata tokenSet, uint256 endsAt, string calldata infoURL, bytes calldata signature) external returns(bytes32) {
-        return _makeChallengeSet(tokenSet, endsAt, infoURL, signature);
+    /*  
+        @notice Register a new ChallengeSet.
+        @dev This method does not require the sender to own the tokens or to have approved TokenClient, in order to save gas.
+             If you want these requires, use {makeSafeChallengeSet} instead. 
+        @param tokens is the TokenSet to make the challenge. 
+        @param endsAt is the block timestamp when the challenge expires.
+        @param infoURL is an optional URL that directs to a description or instructions of the challenge.
+        @param signature is the message that the token owner must sign.
+    */
+    function makeChallengeSet(TokenSet calldata tokens, uint256 endsAt, string calldata infoURL, bytes calldata signature) external returns(bytes32) {
+        return _makeChallengeSet(tokens, endsAt, infoURL, signature);
     }
 
     /*  
-        @notice Register a challenge.
-        @dev This method requires that the sender owns the tokens, that contractAddress is IERC20 compilant, and be approved. Use {makeChallengeERC20} to avoid this in order to safe gas.
-        @param contractAddress is the address of the IERC20 token. 
-        @param amount is the token amount.
+        @notice Register a new Challenge.
+        @dev This method does require the sender to own the token or to have approved TokenClient.
+             If you want to save gas, use {makeChallenge} instead. 
+        @param token is the Token to make the challenge. 
+        @param endsAt is the block timestamp when the challenge expires.
         @param infoURL is an optional URL that directs to a description or instructions of the challenge.
         @param signature is the message that the token owner must sign.
     */
@@ -88,20 +112,23 @@ contract ChallengeToClaim is EIP712("ChallengeToClaim", "2"), Context
         require(_client.isApproved(token, _msgSender(), address(_client)), "ChallengeToClaim: TokenClient not approved");
         return _makeChallenge(token, endsAt, infoURL, signature);
     }
-    function makeSafeChallengeSet(TokenSet calldata tokenSet, uint256 endsAt, string calldata infoURL, bytes calldata signature) external returns(bytes32) {
-        require(_client.isOwnerSet(tokenSet, _msgSender()), "ChallengeToClaim: not the owner");
-        require(_client.isApprovedSet(tokenSet, _msgSender(), address(_client)), "ChallengeToClaim: TokenClient not approved");
-        return _makeChallengeSet(tokenSet, endsAt, infoURL, signature);
-    }
-     /*  
-        @notice Register a challenge so that an ERC20 token can be claimed.
-        @dev This method requires that the sender owns the tokens, that contractAddress is IERC20 compilant, and be approved. Use {makeChallengeERC20} to avoid this in order to safe gas.
-        @param contractAddress is the address of the IERC20 token. 
-        @param amount is the token amount.
+    /*  
+        @notice Register a new ChallengeSet.
+        @dev This method does require the sender to own the tokens or to have approved TokenClient.
+             If you want to save gas, use {makeChallengeSet} instead. 
+        @param tokens is the TokenSet to make the challenge. 
+        @param endsAt is the block timestamp when the challenge expires.
         @param infoURL is an optional URL that directs to a description or instructions of the challenge.
         @param signature is the message that the token owner must sign.
     */
+    function makeSafeChallengeSet(TokenSet calldata tokens, uint256 endsAt, string calldata infoURL, bytes calldata signature) external returns(bytes32) {
+        require(_client.isOwnerSet(tokens, _msgSender()), "ChallengeToClaim: not the owner");
+        require(_client.isApprovedSet(tokens, _msgSender(), address(_client)), "ChallengeToClaim: TokenClient not approved");
+        return _makeChallengeSet(tokens, endsAt, infoURL, signature);
+    }
+ 
     function _makeChallenge(Token calldata token, uint256 endsAt, string calldata infoURL, bytes calldata signature) internal returns(bytes32) {
+        require(_client.supportsStandard(token.Standard), "ChallengeToClaim: standard not supported");
         require(endsAt == 0 || endsAt > block.timestamp, "ChallengeToClaim: endsAt less than block.timestamp");
         bytes32 key = _getChallengeKey(signature); 
         require(_challenges[key].Owner == address(0), "ChallengeToClaim: Signature already used"); 
@@ -112,11 +139,12 @@ contract ChallengeToClaim is EIP712("ChallengeToClaim", "2"), Context
         return key;
     } 
     
-    function _makeChallengeSet(TokenSet calldata tokenSet, uint256 endsAt, string calldata infoURL, bytes calldata signature) internal returns(bytes32) {
+    function _makeChallengeSet(TokenSet calldata tokens, uint256 endsAt, string calldata infoURL, bytes calldata signature) internal returns(bytes32) {
+        require(_client.supportsStandard(tokens.Standard), "ChallengeToClaim: standard not supported");
         require(endsAt == 0 || endsAt > block.timestamp, "ChallengeToClaim: endsAt less than block.timestamp");
         bytes32 key = _getChallengeKey(signature); 
         require(_challengeSets[key].Owner == address(0), "ChallengeToClaim: Signature already used"); 
-        _challengeSets[key] = ChallengeSet(tokenSet, _msgSender(), endsAt, _nonces[_msgSender()].current(), infoURL, false);
+        _challengeSets[key] = ChallengeSet(tokens, _msgSender(), endsAt, _nonces[_msgSender()].current(), infoURL, false);
         _challengeKeys.push(key); 
         _nonces[_msgSender()].increment(); 
         emit NewChallenge(key);
@@ -124,7 +152,7 @@ contract ChallengeToClaim is EIP712("ChallengeToClaim", "2"), Context
     }
  
     /*  
-        @notice Claim a token to be transferred to you. 
+        @notice Claim the reward to be transferred to you. 
         @param secretKey is the hash of the solution or secret message that participants must find to solve the challenge.
         @param signature is the signed message that identifies the challenge.
     */

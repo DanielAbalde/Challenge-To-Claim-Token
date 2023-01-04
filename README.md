@@ -1,7 +1,7 @@
 <h1 align="center">Challenge to Claim Token (BETA)</h1> 
 <p align="center">Claim a token if you know the secret!</p>
 
-<p align="center" style="font-style: italic">⚠️<small>This project still needs to be audited and used in testnets, use it under your own risk</small>⚠️</p>
+<p align="center" style="font-style: italic">⚠️<small>This contracts has not been audited yet, use it under your own risk</small>⚠️</p>
 
 This [contract](./contracts/ChallengeToClaim.sol) allows you to put your ERC721, ERC1155 and ERC20 tokens under challenge, so that whoever finds the answer will be able to claim the token to transfer it to himself. You present a challenge, problem, puzzle, quiz or gymkhana, and this contract takes care of the transfer to whomever provides the correct solution.
 
@@ -64,8 +64,7 @@ You can also help by testing the project using the scripts or from polygonscan. 
  
 The [challenge #1](https://github.com/DanielAbalde/Challenge-To-Claim-Token/blob/master/test/test_tokens/ERC721/challenges/Challenge_1.txt) and [challenge #3](https://github.com/DanielAbalde/Challenge-To-Claim-Token/blob/master/test/test_tokens/ERC721/challenges/Challenge_3.txt) are still active. If you know some answer, 1) go to any online tool like [this one](https://www.devoven.com/string-to-bytes32) to hash the solution to bytes32, and 2) go the claim function in [polygonscan](https://mumbai.polygonscan.com/address/0xa758C748A6e9907A79456B0A5d9Ed67cd95073CC#writeContract#F1), connect your wallet, set the secretKey (the hashed solution) and signature (which you can find in the challenge links), and if you have the right solution the [token #1](https://testnets.opensea.io/assets/mumbai/0x34a543c3f84ea167df84d5ed0a80a0ce9916ff42/1) or [token #3](https://testnets.opensea.io/assets/mumbai/0x34a543c3f84ea167df84d5ed0a80a0ce9916ff42/3) will be yours!
 
-## 🧱 TODO 
-* Update comments.
+## 🧱 TODO  
 * Update readme. 
 * Develop DApp.
 
