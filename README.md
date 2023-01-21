@@ -1,7 +1,7 @@
-<h1 align="center">Challenge to Claim Token (BETA)</h1> 
+<h1 align="center">Challenge to Claim Token (V1)</h1> 
 <p align="center">Claim a token if you know the secret!</p>
 
-<p align="center" style="font-style: italic">⚠️<small>This contracts has not been audited yet, use it under your own risk</small>⚠️</p>
+<p align="center" style="font-style: italic"><small>⚠️ Contracts not audited. ⚠️<br/>This README is from previous version <a src="./V1">V1</a><br/>(current version implements <a src="https://github.com/DanielAbalde/Token-Client/blob/4e0f92cae3f93066f444726d31952e5ce3ed5343/contracts/TokenClient.sol">TokenClient.sol</a>)</small></p>
 
 This [contract](./contracts/ChallengeToClaim.sol) allows you to put your ERC721, ERC1155 and ERC20 tokens under challenge, so that whoever finds the answer will be able to claim the token to transfer it to himself. You present a challenge, problem, puzzle, quiz or gymkhana, and this contract takes care of the transfer to whomever provides the correct solution.
 
@@ -29,9 +29,9 @@ Each challenge is made up of a prize token, a secret hash, and a unique encrypte
   // 3) Hash the solution to challenge
   const secretKey = ethers.utils.formatBytes32String("secret message or solution");
   // 4) Generate the EIP712 signature
-  const signature = await signChallenge(owner, token.address, token.tokenId, token.amount, secretKey);
+  const signature = await signChallenge(owner, token, secretKey);
   // 5) Register a new challenge
-  await challengeContract.connect(owner).makeChallengeERC721(token.address, token.tokenId, "", signature);
+  await challengeContract.connect(owner).makeChallenge(token, endsAt, "", signature);
 ```
 
 The idea is that you share the signature with the participants, from which they cannot get information because it is encrypted, and give clues or challenges to find the secret hash. This hash can be derived from text, numbers, or bytes, so the solution can be any data type.

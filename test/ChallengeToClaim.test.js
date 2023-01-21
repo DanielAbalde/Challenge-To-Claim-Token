@@ -753,7 +753,7 @@ async function deploy(contractName, ...params){
 }
 async function deployFromArtifact(json, signer, ...params){
   const factory = new ethers.ContractFactory(json.abi, json.bytecode, signer); 
-  const contract = await factory.deploy();
+  const contract = await factory.deploy(...params);
   await contract.deployed();
   return contract;
 }
